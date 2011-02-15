@@ -1,51 +1,137 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en-US">
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ --> 
+<!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="ie8"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
 <head>
+  <!-- Always force latest IE rendering engine (even in intranet) & Chrome 
+       Frame Remove this if you use the .htaccess -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <!-- REMOVE FOR PRODUCTION -->
+  <meta http-equiv="cache-control" content="no-cache"> <!-- tells browser not to cache -->
+  <meta http-equiv="expires" content="0"> <!-- says that the cache expires 'now' -->
+  <meta http-equiv="pragma" content="no-cache"> <!-- says not to use cached stuff, if there is any -->
+  <!-- END REMOVE FOR PRODUCTION -->
+
   <meta charset="utf-8">
+
+  <meta http-equiv="imagetoolbar" content="no" />
+  <meta name="distribution" content="all" />
+  <meta name="robots" content="all" />  
+  <meta name="resource-type" content="document" />
+  <meta name="MSSmartTagsPreventParsing" content="true" />
+
   <title><%= html_title yield(:page_title) %></title>
+  
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  
+  <!-- TypeKit Loader -->
   <%= csrf_meta_tag %>
-  <%= stylesheet_link_tag 'application' %>
   <%= javascript_include_tag 'jquery' %>
   <%= javascript_include_tag 'rails' %>
+  <%= javascript_include_tag 'application' %>
+
   <%= open_id_delegation_link_tags(enki_config[:open_id_delegation, :server], enki_config[:open_id_delegation, :delegate]) if enki_config[:open_id_delegation] %>
   <%= yield(:head) %>
+  <script type="text/javascript" src="http://use.typekit.com/qql8fha.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+  <link href="http://feeds.feedburner.com/Chadfowlercom" rel="alternate" title="Articles for Home" type="application/atom+xml" /> 
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/master.css">
+  
 </head>
+
 <body>
-  <div id="page_container">
-    <div id="content">
-      <h1 id="page_heading"><a href="<%= root_url %>"><%= enki_config[:title] %></a></h1>
+  <section id="top">
+    <section id="twitter_bar">
+      <p class="right">
+        <a href="http://twitter.com/chadfowler" title="You Should Follow Chad on Twitter"><img src="/images/twitter_follow_button.png" /></a>
+        <a href="http://feeds.feedburner.com/Chadfowlercom" title="Subscribe to this blog's RSS feed"><img src="/images/rss_icon.png"></a>
+      </p>
+      <p>
+        <img src="/images/twitter_t_icon.png">
+        <strong>Currently:</strong>
+       <span id='twitter_update_list'>
+        </span>
 
-      <div id="main">
-        <%= yield %>
-      </div>
-
-      <div id="navigation">
-        <h2>Pages</h2>
+		<script type="text/javascript" src="http://twitter.com/statuses/user_timeline/chadfowler.json?callback=showTweet&count=1">
+		</script>
+      </p>
+    </section> <!-- // #twitter_bar -->
+  </section> <!-- // #top -->
+  <div id="nest">
+    <section id="content">
+      <header id="masthead">
+        <hgroup>
+          <h1><img src="/images/mast_chad.jpg" id="mast" alt="Chad Fowler "/></h1>
+          <h2><img src="/images/mast_author-speaker-programming-lifestyle-engineer.png" alt="Author, Speaker, Programming Lifestyle Engineer" /></h2>
+        </hgroup>
+        <nav id="primary" role="navigation">
         <ul>
-          <% page_links_for_navigation.each do |link| -%>
-            <li><%= link_to(link.name, link.url) %></li>
-          <% end -%>
+          <li><a href="/" title="Home"><img src="/images/nav_home.png" alt="Home"></a></li>
+          <li><a href="/pages/about" title="About"><img src="/images/nav_about.png" alt="About"></a></li>
+          <li><a href="/pages/speaking" title="Speaking"><img src="/images/nav_speaking.png" alt="Speaking"></a></li>
+          <li><a href="/" title="Blog"><img src="/images/nav_blog.png" alt="Blog"></a></li>
+          <li><a href="/pages/books" title="Books"><img src="/images/nav_books.png" alt="Books"></a></li>
+          <li><a href="/pages/contact" title="Contact"><img src="/images/nav_contact.png" alt="Contact"></a></li>
         </ul>
-        <% unless category_links_for_navigation.empty? -%>
-          <h2>Categories</h2>
-          <ul>
-            <% category_links_for_navigation.each do |link| -%>
-              <li><%= link_to(link.name, link.url) %></li>
-            <% end -%>
-          </ul>
+        </nav>
+        
+      </header> <!-- // #masthead -->
+      <section id="rightcol">
+        <a href="" id="swaplink"><img src="/images/h4_a_required-reading.png" alt="Required Reading"></a>
+        <%= render :partial => "/posts/required_reading" %>
+      </section> <!-- // #rightcol -->
+      <section id="middlecol">
+        <section id="speaking">
+          <h4><img src="/images/h4_block_speaking-lecturing-appearances.jpg" alt="Speaking/Lecturing Appearances" /></h4>
+          <dl>
+            <dt>Mar 7-10</dt>
+            <dd><a href="http://pragmaticstudio.com/rails-ii">Pragmatic Rails Studio II</a><br /><span>Santa Clara, CA</span></dd>
+            <dt>Mar 29-31</dt>
+            <dd><a href="http://pragmaticstudio.com/rails">Pragmatic Rails Studio</a><br /><span>Reston, VA</span></dd>
+            <dt>Apr 1-2</dt>
+            <dd><a href="http://rubynation.org">Ruby Nation</a><br /><span>Reston, VA</span></dd>
+            <dt>Apr 6-8</dt>
+            <dd><a href="scottishrubyconference.com/">Scottish Ruby Conference</a><br /><span>Edinburgh, Scotland</span></dd>
+            <dt>Apr 22-23</dt>
+            <dd><a href="http://reddotrubyconf.com/">Red Dot RubyConf</a><br /><span>Singapore</span></dd>
+            <dt>May 16-19</dt>
+            <dd><a href="http://railsconf.org">RailsConf</a><br /><span>Baltimore MD</span></dd>
+            <dt>May 28-29</dt>
+            <dd><a href="http://rubyconfindia.org/">RubyConf India</a><br /><span>Bangalore, Karnataka, India</span></dd>
+            <dt>Jun 16-18</dt>
+            <dd><a href="">Nordic Ruby</a><br /><span>Gothenburg, Sweden</span></dd>
+          </dl>
+        </section>
+        <p>Want me to speak at your event? <a href="mailto:chad+speaking@chadfowler.com?subject=Speaking Engagement Request">Email me.</a></p>
+        <p><a href="http://www.pragmaticstudio.com/"><img src="/images/prag_01.png" width="210"></a></p>
+        <h4><img src="/images/h4_blog-topics.png" alt="Blog Topics"></h4>
+        <% category_links_for_navigation.each do |link| -%>
+        <p><%= link_to(link.name, link.url) %></p>
         <% end -%>
+         <h4>Search</h4>
         <form method="get" id="sform" action="http://www.google.com/search">
           <div>
-            <h2><label for="q">Search</label></h2>
-
             <input type="text" id="q" value="" name="q">
             <input type="hidden" name="sitesearch" value="<%= enki_config[:url] %>">
           </div>
         </form>
-      </div>
+      </section> <!-- // #middlecol -->
+      <section id="leftcol">
+        <%= yield %>
 
-      <div id="footer"><%= enki_config[:title] %> &#169; <%= enki_config[:author, :name] %>. Valid <a href="http://validator.w3.org/check?uri=referer">HTML5</a> and <%= link_to "ATOM", "http://feedvalidator.org/check.cgi?url=#{enki_config[:url]}/posts.atom" %>. Powered by <a href="http://www.enkiblog.com" title="A Ruby on Rails blogging app for the fashionable developer">Enki</a>.</div>
-    </div>
-  </div>
+      </section> <!-- // #leftcol -->
+      
+    </section> <!-- // #content -->
+  </div> <!-- // #nest -->
+        <div id="footer"><%= enki_config[:title] %> &#169; <%= enki_config[:author, :name] %>.</div>
 </body>
 </html>
+
+

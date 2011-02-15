@@ -4,6 +4,8 @@
 <% if @posts.empty? -%>
 	<p>There are no posts yet.</p>
 <% else -%>
+<h2><img src="images/h2_recent-thoughts.png" alt="Recent Thoughts" /></h2>
+
 	<% @posts.each do |post| -%>
 	<div class="post post-<%= post.id %>">
 	  <%= render :partial => 'post', :locals => {:post => post} %>
